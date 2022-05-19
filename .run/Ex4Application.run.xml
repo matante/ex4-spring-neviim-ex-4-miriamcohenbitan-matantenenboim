@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Ex4Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="ex4" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="hac.ex4.Ex4Application" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
