@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+
+        <form action="#" th:action="@{/addcandy}" th:object="${candy}" method="post">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="candyName" class="col-form-label">Candy Name</label>
+                    <input type="text" th:field="*{candyName}" class="form-control" id="candyName" placeholder="Name">
+
+                    <label for="imageLink" class="col-form-label">Candy Image Link</label>
+                    <input type="text" th:field="*{imageLink}" class="form-control" id="imageLink" placeholder="Name">
+
+                    <label for="quantity" class="col-form-label">Candy Quantity</label>
+                    <input type="number" th:field="*{quantity}" class="form-control" id="quantity" placeholder="Name">
+
+                    <label for="price" class="col-form-label">Candy Price</label>
+                    <input type="number" th:field="*{price}" class="form-control" id="price" placeholder="Name">
+
+                    <label for="discount" class="col-form-label">Candy Discount</label>
+                    <input type="number" th:field="*{discount}" class="form-control" id="discount" placeholder="Name">
+
+                    <span th:if="${#fields.hasErrors('candyName')}" th:errors="*{candyName}" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 mt-5">
+                    <input type="submit" class="btn btn-primary" value="Add Candy">
+                </div>
+            </div>
+
+
+<!--        <div class="mb-3">-->
+<!--            <label for="name" class="form-label">Candy Name</label>-->
+<!--            <input type="text" class="form-control" id="name">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="image" class="form-label">Candy Image</label>-->
+<!--            <input type="url" class="form-control" id="image">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="quantity" class="form-label">Candy quantity</label>-->
+<!--            <input type="number" class="form-control" id="quantity">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="price" class="form-label">Candy price</label>-->
+<!--            <input type="number" class="form-control" id="price">-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="discount" class="form-label">Candy discount</label>-->
+<!--            <input type="number" class="form-control" id="discount">-->
+<!--        </div>-->
+
+    </form>
+</div>
+</body>
+</html>
