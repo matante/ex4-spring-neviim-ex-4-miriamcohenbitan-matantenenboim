@@ -11,58 +11,78 @@
 <body>
 
 <div class="container">
-
-        <form action="#" th:action="@{/addcandy}" th:object="${candy}" method="post">
+        <form action="#" th:action="@{/admin/addsweet}" th:object="${sweet}" method="post">
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="candyName" class="col-form-label">Candy Name</label>
-                    <input type="text" th:field="*{candyName}" class="form-control" id="candyName" placeholder="Name">
+                    <label for="sweetName" class="col-form-label">Sweet Name</label>
+                    <input type="text" th:field="*{sweetName}" class="form-control" id="sweetName" placeholder="Name">
 
-                    <label for="imageLink" class="col-form-label">Candy Image Link</label>
+                    <label for="imageLink" class="col-form-label">Sweet Image Link</label>
                     <input type="text" th:field="*{imageLink}" class="form-control" id="imageLink" placeholder="Name">
 
-                    <label for="quantity" class="col-form-label">Candy Quantity</label>
+                    <label for="quantity" class="col-form-label">Sweet Quantity</label>
                     <input type="number" th:field="*{quantity}" class="form-control" id="quantity" placeholder="Name">
 
-                    <label for="price" class="col-form-label">Candy Price</label>
-                    <input type="number" th:field="*{price}" class="form-control" id="price" placeholder="Name">
+                    <label for="price" class="col-form-label">Sweet Price</label>
+                    <input type="number" step="0.1" th:field="*{price}" class="form-control" id="price"
+                           placeholder="Name">
 
-                    <label for="discount" class="col-form-label">Candy Discount</label>
+                    <label for="discount" class="col-form-label">Sweet Discount</label>
                     <input type="number" th:field="*{discount}" class="form-control" id="discount" placeholder="Name">
 
-                    <span th:if="${#fields.hasErrors('candyName')}" th:errors="*{candyName}" class="text-danger"></span>
+                    <span th:if="${#fields.hasErrors('sweetName')}" th:errors="*{sweetName}" class="text-danger"></span>
                 </div>
 
             </div>
             <div class="row">
                 <div class="col-md-6 mt-5">
-                    <input type="submit" class="btn btn-primary" value="Add Candy">
+                    <input type="submit" class="btn btn-primary" value="Add Sweet">
                 </div>
             </div>
+        </form>
+
+    <div th:switch="${sweets.size()}" class="col-md-6">
+        <h2 th:case="0">No sweets yet!</h2>
+        <div th:case="*">
+            <h2 class="my-5">Sweets</h2>
+            <table class="table table-striped table-responsive-md">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="sweet : ${sweets}">
+                    <td th:text="${sweet.sweetName}"></td>
+                    <td th:text="${sweet.imageLink}"></td>
+                    <td th:text="${sweet.quantity}"></td>
+                    <td th:text="${sweet.price}"></td>
+                    <td th:text="${sweet.discount}"></td>
+<!--                    <td>-->
+<!--                        &lt;!&ndash; not recommended: using GET controller <a th:href="@{/edit/{id}(id=${user.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a> &ndash;&gt;-->
+<!--                        <form action="#" th:action="@{/edit}" th:object="${sweet}" method="post"><input type="hidden" name="id" th:value="${sweet.id}">-->
+<!--                            <input class="btn btn-primary" type="submit" value="EDIT" /></form>-->
+<!--                    </td>-->
+                    <td>
+                        <form action="#" th:action="@{delete}" th:object="${sweet}" method="post" >
+                            <input type="hidden" name="id" th:value="${sweet.id}">
+                            <input type="submit" class="btn btn-primary" value="Delete">
+                        </form>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+<!--        <p class="my-5"><a href="/signup" class="btn btn-primary"><i class="fas fa-user-plus ml-2"></i></a></p>-->
+    </div>
 
 
-<!--        <div class="mb-3">-->
-<!--            <label for="name" class="form-label">Candy Name</label>-->
-<!--            <input type="text" class="form-control" id="name">-->
-<!--        </div>-->
-<!--        <div class="mb-3">-->
-<!--            <label for="image" class="form-label">Candy Image</label>-->
-<!--            <input type="url" class="form-control" id="image">-->
-<!--        </div>-->
-<!--        <div class="mb-3">-->
-<!--            <label for="quantity" class="form-label">Candy quantity</label>-->
-<!--            <input type="number" class="form-control" id="quantity">-->
-<!--        </div>-->
-<!--        <div class="mb-3">-->
-<!--            <label for="price" class="form-label">Candy price</label>-->
-<!--            <input type="number" class="form-control" id="price">-->
-<!--        </div>-->
-<!--        <div class="mb-3">-->
-<!--            <label for="discount" class="form-label">Candy discount</label>-->
-<!--            <input type="number" class="form-control" id="discount">-->
-<!--        </div>-->
 
-    </form>
 </div>
 </body>
 </html>
