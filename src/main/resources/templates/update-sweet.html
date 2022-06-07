@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Update User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-5">
+    <h2 class="mb-5">Update Sweet</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="#" th:action="@{/admin/update/{id}(id=${sweet.id})}" th:object="${sweet}" method="post">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="sweetName" class="col-form-label">Sweet Name</label>
+                        <input type="text" th:field="*{sweetName}" class="form-control" id="sweetName" placeholder="Name">
+                        <span th:if="${#fields.hasErrors('sweetName')}" th:errors="*{sweetName}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="imageLink" class="col-form-label">Link</label>
+                        <input type="text" th:field="*{imageLink}" class="form-control" id="imageLink" placeholder="Image Link">
+                        <span th:if="${#fields.hasErrors('imageLink')}" th:errors="*{imageLink}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="quantity" class="col-form-label">Quantity</label>
+                        <input type="number" th:field="*{quantity}" class="form-control" id="quantity" placeholder="Quantity">
+                        <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="price" class="col-form-label">Price</label>
+                        <input type="number" step="0.1" th:field="*{price}" class="form-control" id="price" placeholder="Price">
+                        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="discount" class="col-form-label">Discount</label>
+                        <input type="number" th:field="*{discount}" class="form-control" id="discount" placeholder="Discount">
+                        <span th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mt-5">
+                        <input type="submit" class="btn btn-primary" value="Update Sweet">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

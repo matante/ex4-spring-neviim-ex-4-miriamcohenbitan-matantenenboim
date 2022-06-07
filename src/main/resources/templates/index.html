@@ -62,11 +62,12 @@
                     <td th:text="${sweet.quantity}"></td>
                     <td th:text="${sweet.price}"></td>
                     <td th:text="${sweet.discount}"></td>
-<!--                    <td>-->
-<!--                        &lt;!&ndash; not recommended: using GET controller <a th:href="@{/edit/{id}(id=${user.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a> &ndash;&gt;-->
-<!--                        <form action="#" th:action="@{/edit}" th:object="${sweet}" method="post"><input type="hidden" name="id" th:value="${sweet.id}">-->
-<!--                            <input class="btn btn-primary" type="submit" value="EDIT" /></form>-->
-<!--                    </td>-->
+
+                    <td>
+                        <form action="#" th:action="@{/admin/edit}" th:object="${sweet}" method="post"><input type="hidden" name="id" th:value="${sweet.id}">
+                            <input class="btn btn-primary" type="submit" value="EDIT" /></form>
+                    </td>
+
                     <td>
                         <form action="#" th:action="@{delete}" th:object="${sweet}" method="post" >
                             <input type="hidden" name="id" th:value="${sweet.id}">
@@ -78,7 +79,6 @@
                 </tbody>
             </table>
         </div>
-<!--        <p class="my-5"><a href="/signup" class="btn btn-primary"><i class="fas fa-user-plus ml-2"></i></a></p>-->
     </div>
 
 

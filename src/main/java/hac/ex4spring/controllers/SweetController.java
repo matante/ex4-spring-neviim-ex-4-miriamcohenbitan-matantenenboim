@@ -44,8 +44,9 @@ public class SweetController {
         }
         getRepo().save(sweet);
         model.addAttribute("sweets", getRepo().findAll());
+        return "redirect:/admin";
 
-        return "index";
+       // return "index";
     }
 
     @PostMapping("/delete")
@@ -60,4 +61,27 @@ public class SweetController {
         model.addAttribute("sweets", getRepo().findAll());
         return "redirect:/admin";
     }
+
+    @PostMapping("/edit")
+    public String editSweet(@RequestParam("id") long id, Model model) {
+
+        Sweet sweet = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid sweet Id:" + id));
+
+        // the name "user"  is bound to the VIEW
+        model.addAttribute("sweet", sweet);
+        return "update-sweet";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateSweet(@PathVariable("id") long id, @Valid Sweet sweet, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            sweet.setId(id);
+            return "update-sweet";
+        }
+
+        getRepo().save(sweet);
+        model.addAttribute("sweets", getRepo().findAll());
+        return "redirect:/admin";
+    }
+
 }
