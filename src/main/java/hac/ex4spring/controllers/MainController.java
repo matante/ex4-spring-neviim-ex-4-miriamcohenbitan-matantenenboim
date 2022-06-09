@@ -1,15 +1,29 @@
 package hac.ex4spring.controllers;
 
 import hac.ex4spring.repo.Sweet;
+import hac.ex4spring.repo.SweetRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import java.util.List;
 
 
 @Controller
 public class MainController {
 
+    @Autowired
+    private SweetRepository repository;
+    private SweetRepository getRepo() {
+        return repository;
+    }
+
     @GetMapping("/")
-    public String main(Sweet sweet) {
+    public String main(Sweet sweet, Model model) {
+
+        model.addAttribute("sweets", getRepo().findAll());
+        model.addAttribute("top5",getRepo().findFirst5ByOrderByDiscountDesc());
+
         return "homepage";
     }
 

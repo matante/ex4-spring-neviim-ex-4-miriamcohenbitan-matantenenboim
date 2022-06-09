@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/admin")
@@ -27,20 +28,20 @@ public class SweetController {
     }
 
     @GetMapping("addsweet")
-    public String addSweetGet( Model model){
-//        RedirectView redirectView = new RedirectView();
-//        redirectView.setUrl("/");
-//        return redirectView;
+    public String addSweetGet(Sweet sweet, Model model){
         return "redirect:/admin";
     }
 
 
-    @PostMapping("/addsweet")
-    public String addSweet(@Valid Sweet sweet, Model model, BindingResult result) {
+    @PostMapping(value = "/addsweet")
+    public String addSweet(@Valid Sweet sweet, BindingResult result, Model model) {
         if (result.hasErrors()){
             model.addAttribute("sweets", getRepo().findAll());
-            System.out.println("in error");
             return "index";
+        }
+        if (Objects.equals(sweet.getImageLink(), "")){
+            sweet.setImageLink("default-sweet.png");
+//            sweet.setImageLink("https://www.google.co.il/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
         }
         getRepo().save(sweet);
         model.addAttribute("sweets", getRepo().findAll());
@@ -49,6 +50,10 @@ public class SweetController {
        // return "index";
     }
 
+    @GetMapping("delete")
+    public String deleteSweetGet(Sweet sweet, Model model){
+        return "redirect:/admin";
+    }
     @PostMapping("/delete")
     public String deleteSweet(@RequestParam("id") long id, Model model) {
 
@@ -62,6 +67,10 @@ public class SweetController {
         return "redirect:/admin";
     }
 
+    @GetMapping("edit")
+    public String editSweetGet(Sweet sweet, Model model){
+        return "redirect:/admin";
+    }
     @PostMapping("/edit")
     public String editSweet(@RequestParam("id") long id, Model model) {
 
@@ -72,6 +81,10 @@ public class SweetController {
         return "update-sweet";
     }
 
+    @GetMapping("update/{id}")
+    public String updateSweetGet(Sweet sweet, Model model){
+        return "redirect:/admin";
+    }
     @PostMapping("/update/{id}")
     public String updateSweet(@PathVariable("id") long id, @Valid Sweet sweet, BindingResult result, Model model) {
         if (result.hasErrors()) {
