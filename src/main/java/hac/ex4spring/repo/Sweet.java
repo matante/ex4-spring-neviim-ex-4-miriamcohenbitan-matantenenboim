@@ -4,11 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 
+@Component
 @Getter
 @Setter
 @Entity

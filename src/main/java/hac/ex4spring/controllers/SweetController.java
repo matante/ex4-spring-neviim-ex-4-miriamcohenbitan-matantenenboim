@@ -41,7 +41,6 @@ public class SweetController {
         }
         if (Objects.equals(sweet.getImageLink(), "")){
             sweet.setImageLink("default-sweet.png");
-//            sweet.setImageLink("https://www.google.co.il/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
         }
         getRepo().save(sweet);
         model.addAttribute("sweets", getRepo().findAll());

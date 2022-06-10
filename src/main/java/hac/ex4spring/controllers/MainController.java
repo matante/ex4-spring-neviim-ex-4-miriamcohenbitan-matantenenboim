@@ -24,6 +24,7 @@ public class MainController {
         model.addAttribute("sweets", getRepo().findAll());
         model.addAttribute("top5",getRepo().findFirst5ByOrderByDiscountDesc());
 
+
         return "homepage";
     }
 
