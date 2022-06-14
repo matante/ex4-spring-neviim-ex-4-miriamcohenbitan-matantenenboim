@@ -33,6 +33,7 @@ public class SpringSessionController {
 
         model.addAttribute("allSweetsInCart", cart.getSweetMap().keySet());
         model.addAttribute("cart", cart);
+        model.addAttribute("error", "");
 
         return "cart";
     }

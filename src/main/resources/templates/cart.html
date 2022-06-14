@@ -16,6 +16,18 @@
 
 <div th:insert="fragments/navbar.html"></div>
 
+<div th:unless="${error}"></div>
+<div th:if="${error}">
+   <header class="bg-danger bg-opacity-50">
+        <div class="container px-4 px-lg-5">
+            <div class="text-center text-white">
+                <p class="lead fw-normal text-white-50 mb-0" th:text="${error}"></p>
+            </div>
+        </div>
+    </header>
+</div>
+
+
 <section class="h-100" style="background-color: #eee;">
     <div class="container h-100 py-5">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -26,9 +38,9 @@
                 </div>
 
                 <form action="#" th:action="@{/cart/emptyCart}" method="post">
-                <button type="submit" class="btn">
-                   Remove All
-                </button>
+                    <button type="submit" class="btn btn-outline-warning">
+                       <b> Remove All</b>
+                    </button>
                 </form>
 
                 <div th:each="sweet:${allSweetsInCart}" class="card rounded-3 mb-4">
@@ -89,7 +101,7 @@
                 <div class="card mb-4">
                     <div class="card-body p-4 d-flex flex-row">
                         <div class="form-outline flex-fill">
-                            <input type="text" id="form2" class="form-control form-control-lg"
+                            <input disabled type="text" id="form2" class="form-control form-control-lg"
                                    placeholder="Coupons feature is not available for now"
                             />
                             <label class="form-label" for="form1">Discount code</label>

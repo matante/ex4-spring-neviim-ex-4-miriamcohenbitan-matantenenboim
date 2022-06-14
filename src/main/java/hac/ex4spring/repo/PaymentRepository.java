@@ -10,7 +10,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 //    double sumByAmount();
 
     @Query("SELECT SUM(p.amount) from Payment p")
-    double sumByAmount();
+    Double sumByAmount();
 
 
 

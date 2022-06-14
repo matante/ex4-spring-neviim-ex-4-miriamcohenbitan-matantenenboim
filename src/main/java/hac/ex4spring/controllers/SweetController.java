@@ -18,6 +18,7 @@ import java.util.Objects;
 public class SweetController {
     @Autowired
     private SweetRepository sweetRepository;
+
     private SweetRepository getSweetRepo() {
         return sweetRepository;
     }
@@ -25,14 +26,19 @@ public class SweetController {
 
     @Autowired
     private PaymentRepository paymentRepository;
-    private PaymentRepository getPaymentRepo() {return paymentRepository;};
+
+    private PaymentRepository getPaymentRepo() {
+        return paymentRepository;
+    }
+
+    ;
 
 
     @GetMapping("")
     public String main(Sweet sweet, Model model) {
         model.addAttribute("sweets", getSweetRepo().findAll());
         System.out.println("about to print payments");
-        for (Payment p : getPaymentRepo().findAll()){
+        for (Payment p : getPaymentRepo().findAll()) {
             System.out.println(p.getId());
             System.out.println(p.getAmount());
             System.out.println(p.getDatetime());
@@ -66,8 +72,8 @@ public class SweetController {
     @GetMapping("payments")
     public String payments(Model model) {
         model.addAttribute("payments", getPaymentRepo().findByOrderByDatetimeDesc());
-        model.addAttribute("totalAmount", getPaymentRepo().sumByAmount());
-
+        Double amount = getPaymentRepo().sumByAmount();
+        model.addAttribute("totalAmount", amount != null ? amount : 0);
 
         return "payments";
     }
@@ -118,7 +124,6 @@ public class SweetController {
         model.addAttribute("sweets", getSweetRepo().findAll());
         return "redirect:/admin";
     }
-
 
 
 }
