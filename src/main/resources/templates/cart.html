@@ -25,6 +25,12 @@
                     <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
                 </div>
 
+                <form action="#" th:action="@{/cart/emptyCart}" method="post">
+                <button type="submit" class="btn">
+                   Remove All
+                </button>
+                </form>
+
                 <div th:each="sweet:${allSweetsInCart}" class="card rounded-3 mb-4">
                     <div class="card-body p-4">
                         <div class="row d-flex justify-content-between align-items-center">

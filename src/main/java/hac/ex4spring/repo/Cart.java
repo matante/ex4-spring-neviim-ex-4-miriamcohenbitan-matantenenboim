@@ -60,6 +60,11 @@ public class Cart implements Serializable {
             }
     }
 
+    public void removeAllItemsFromCart() {
+        for (Sweet sweet : sweetMap.keySet())
+            sweetMap.remove(sweet);
+    }
+
     public double getTotalPrice() {
         double result = 0;
 

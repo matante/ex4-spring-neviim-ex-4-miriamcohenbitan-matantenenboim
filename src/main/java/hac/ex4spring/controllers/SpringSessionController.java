@@ -61,7 +61,11 @@ public class SpringSessionController {
 
         return "checkout";
     }
-
+    @PostMapping("/cart/emptyCart")
+    public String emptyCart() {
+        cart.empty();
+        return "redirect:/cart";
+    }
 
     @PostMapping("/cart/delete")
     public String deleteSweet(@RequestParam("id") long id, Model model) {
