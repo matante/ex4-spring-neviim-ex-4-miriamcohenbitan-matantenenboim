@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="/">Welcome to our Sweet Store!</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Homepage</a></li>
+            <li class="nav-item">
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+                      th:action="@{/searchResults}" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small"
+                               placeholder="Search for..."
+                               aria-label="Search" aria-describedby="basic-addon2" name="name">
+                        <div class="input-group-append">
+                            <button class="btn" type="submit">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li class="nav-item "><a class="nav-link active" aria-current="page" href="/admin">Managers</a></li>
+        </ul>
+        <a href="/cart">
+            <button class="btn btn-outline-dark">
+                <i class="bi-cart-fill me-1"></i>
+                Cart
+                <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${cart.getNumOfItems()}"></span>
+            </button>
+        </a>
+    </div>
+</nav>

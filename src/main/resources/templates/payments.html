@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"-->
+    <!--          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:;base64,=">
+
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <br>
+    <a class="btn btn-primary" href="/" role="button">Home page</a>
+
+    <a class="btn btn-primary" href="/admin/addsweet" role="button">Manage Sweets</a>
+
+    <a class="btn btn-danger" href="/logout" role="button">Log Out</a>
+
+
+
+    <div th:switch="${payments.size()}" class="col-md-6">
+        <h2 th:case="0">No payments yet!</h2>
+        <div th:case="*">
+            <h2 class="my-5">Payments</h2>
+            <p th:text="'Total amount: ' + ${#numbers.formatDecimal(totalAmount, 0, 2)}"></p>
+            <table class="table table-striped table-responsive-md">
+                <thead>
+                <tr>
+                    <th>#id</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="payment : ${payments}">
+                    <td th:text="${payment.id}"></td>
+                    <td th:text="${payment.datetime}"></td>
+                    <td th:text="${payment.amount} + '₪'"></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

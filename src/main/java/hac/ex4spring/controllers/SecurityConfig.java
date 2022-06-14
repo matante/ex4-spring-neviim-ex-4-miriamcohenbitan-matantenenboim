@@ -14,40 +14,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        PasswordEncoder encoder =
-                PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-        auth
-                .inMemoryAuthentication()
-                .withUser("admin").password(encoder.encode("1234")).roles("ADMIN")
-                .and()
-                .withUser("jim").password(encoder.encode("demo")).roles("ADMIN")
-                .and()
-                .withUser("bob").password(encoder.encode("demo")).roles("USER")
-                .and()
-                .withUser("ted").password(encoder.encode("demo")).roles("USER","ADMIN");
+        auth.inMemoryAuthentication().withUser("admin").password(encoder.encode("admin")).roles("ADMIN");
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http
-                .formLogin()
+        http.formLogin()
                 //.loginPage("/login") // <=============== uncomment this for a custom login page (see also the controller)
                 //.loginProcessingUrl("/login")
                 .defaultSuccessUrl("/admin", true)
                 //.failureUrl("/login-error") // <===============  uncomment this for a custom login page (see also the controller)
-                .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-             //   .antMatchers("/user/**").hasRole("USER")
-               // .antMatchers("/shared/**").hasAnyRole("USER", "ADMIN")
+                .and().logout().logoutSuccessUrl("/admin").and().authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
+                //   .antMatchers("/user/**").hasRole("USER")
+                // .antMatchers("/shared/**").hasAnyRole("USER", "ADMIN")
                 // custom error page for exceptions
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/403.html");
+                .and().exceptionHandling().accessDeniedPage("/403.html");
     }
 
 }

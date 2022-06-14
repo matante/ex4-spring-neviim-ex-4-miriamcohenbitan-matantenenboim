@@ -2,6 +2,7 @@ package hac.ex4spring.repo;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class Sweet implements Serializable {
     @NotBlank(message = "Name is mandatory")
     private String sweetName;
 
+    @Length(message = "URL must be shorter than 255", max = 255)
     private String imageLink;
 
     @PositiveOrZero(message = "Cannot have negative number of sweets")

@@ -1,8 +1,8 @@
 package hac.ex4spring.controllers;
 
+import hac.ex4spring.repo.Cart;
 import hac.ex4spring.repo.Sweet;
 
-import hac.ex4spring.beans.Messages;
 import hac.ex4spring.repo.SweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,19 +19,21 @@ public class SpringSessionController {
 
     @Autowired
     private SweetRepository repository;
+
     private SweetRepository getRepo() {
         return repository;
     }
 
-    // injection by ctor: match by name
-    @Resource(name = "sessionBeanExample")
-    private Messages sessionMessages;
 
-
+    @Resource(name = "sessionCart")
+    private Cart cart;
 
     @GetMapping("/cart")
     public String process(Model model) {
-        model.addAttribute("sessionMessages", sessionMessages.getMessages());
+
+        model.addAttribute("allSweetsInCart", cart.getSweetMap().keySet());
+        model.addAttribute("cart", cart);
+
         return "cart";
     }
 
@@ -49,17 +51,40 @@ public class SpringSessionController {
     }
     */
 
-    @PostMapping("/persistMessage")
-    public String persistMessage(@RequestParam("id") long id) {
 
-        Sweet sweet = getRepo()
-                .findById(id)
-                .orElseThrow(
-                        () -> new IllegalArgumentException("Invalid sweet Id:" + id)
-                );
+    @GetMapping("/cart/checkout")
+    public String checkout(Model model) {
 
-        System.out.println(sweet.getSweetName());
-        sessionMessages.add(sweet.getSweetName());
+
+        model.addAttribute("allSweetsInCart", cart.getSweetMap().keySet());
+        model.addAttribute("cart", cart);
+
+        return "checkout";
+    }
+
+
+    @PostMapping("/cart/delete")
+    public String deleteSweet(@RequestParam("id") long id, Model model) {
+        cart.removeItemFromCart(id);
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/cart/update")
+    public String updateSweet(@RequestParam("id") long id, @RequestParam("quantity") Integer quantity, Model model) {
+
+        if (quantity == 0) cart.removeItemFromCart(id);
+        else cart.setItemAmount(id, quantity);
+
+        return "redirect:/cart";
+    }
+
+
+    @PostMapping("/addToCart")
+    public String addToCart(@RequestParam("id") long id) {
+
+        Sweet sweet = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid sweet Id:" + id));
+
+        cart.addToCart(sweet);
 
         return "redirect:/";
     }
