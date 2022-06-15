@@ -14,97 +14,129 @@ import java.util.Hashtable;
 @Component
 @Getter
 @Setter
+/**
+ * this class represents a cart of products (sweets)
+ */
 public class Cart implements Serializable {
-    Hashtable<Sweet, Integer> sweetMap;
+    private Hashtable<Sweet, Integer> sweetsTable; //hash table to store Sweet as key and amount as value
 
+    /**
+     * constructor
+     */
     public Cart() {
-        this.sweetMap = new Hashtable<Sweet, Integer>();
+        this.sweetsTable = new Hashtable<Sweet, Integer>();
     }
 
+    /**
+     * gets a Sweet, check if already in the table. if yes, adds 1 to counter, else (new Sweet) adds to table
+     *
+     * @param other a Sweet that may be added to the table
+     */
     public void addToCart(Sweet other) {
-        boolean found = false;
-        for (Sweet sweet : sweetMap.keySet())
-            if (sweet.getId() == other.getId()) {
-                sweetMap.put(sweet, sweetMap.get(sweet) + 1);
-
-                found = true;
-                break;
+        boolean found = false; // by default
+        for (Sweet sweet : sweetsTable.keySet())
+            if (sweet.getId() == other.getId()) { // exists
+                sweetsTable.put(sweet, sweetsTable.get(sweet) + 1); // add 1
+                found = true; // exists
+                break; // no need to check others
             }
-        if (!found)
-            sweetMap.put(other, 1);
-
+        if (!found) // a new Sweet
+            sweetsTable.put(other, 1); // add to table with value of 1
     }
 
-    public void setItemAmount(long id, Integer amount){
-        for (Sweet sweet : sweetMap.keySet())
+    /**
+     * searches for an item in the table, and updates its amonunt
+     *
+     * @param id     id of the sweet
+     * @param amount new amount
+     */
+    public void setItemAmount(long id, Integer amount) {
+        for (Sweet sweet : sweetsTable.keySet())
             if (sweet.getId() == id) {
-                sweetMap.put(sweet, amount);
-                break;
+                sweetsTable.put(sweet, amount);
+                break; // found
             }
-
     }
 
-    public Integer getItemAmount(long id){
-        for (Sweet sweet : sweetMap.keySet())
+    /**
+     * returns the amount of a sweet in the cart
+     *
+     * @param id id of the sweet
+     * @return amount
+     */
+    public Integer getItemAmount(long id) {
+        for (Sweet sweet : sweetsTable.keySet())
             if (sweet.getId() == id) {
-                return sweetMap.get(sweet);
+                return sweetsTable.get(sweet);
             }
         return 0;
     }
 
+    /**
+     * as name described
+     *
+     * @param id id of the sweet
+     */
     public void removeItemFromCart(long id) {
-        for (Sweet sweet : sweetMap.keySet())
+        for (Sweet sweet : sweetsTable.keySet())
             if (sweet.getId() == id) {
-                sweetMap.remove(sweet);
+                sweetsTable.remove(sweet);
                 break;
             }
     }
 
-    public void removeAllItemsFromCart() {
-        for (Sweet sweet : sweetMap.keySet())
-            sweetMap.remove(sweet);
-    }
-
+    /**
+     * calculate the total price of all the items in the cart
+     *
+     * @return as explained
+     */
     public double getTotalPrice() {
         double result = 0;
 
-        for (Sweet sweet : sweetMap.keySet()) {
-            double price = sweet.getPrice() * sweetMap.get(sweet);
+        for (Sweet sweet : sweetsTable.keySet()) {
+            double price = sweet.getPrice() * sweetsTable.get(sweet);
             double discount = sweet.getDiscount();
 
             if (discount > 0) result += price - price * discount / 100;
             else result += price;
-//            result += discount > 0 ? price - price * discount / 100 : price;
         }
 
-        return Math.floor(result * 100 ) / 100;
+        return Math.floor(result * 100) / 100; // 2 digits after decimal dot
     }
 
     /**
      * calculate how many items overall in the cart (here, 5x banana + 3x hubba bubba = 8)
+     *
      * @return
      */
-    public Integer getNumOfItems(){
+    public Integer getNumOfItems() {
         Integer result = 0;
-        for (Sweet sweet : sweetMap.keySet()) {
-            result += sweetMap.get(sweet);
+        for (Sweet sweet : sweetsTable.keySet()) {
+            result += sweetsTable.get(sweet);
         }
         return result;
     }
 
     /**
      * return how many unique items in the cart (here, 5x banana + 3x hubba bubba = 2)
+     *
      * @return
      */
-    public Integer getNumOfUniqueItems(){
-        return sweetMap.size();
+    public Integer getNumOfUniqueItems() {
+        return sweetsTable.size();
     }
 
+    /**
+     * empties the cart
+     */
     public void empty() {
-        this.sweetMap = new Hashtable<Sweet, Integer>();
+        this.sweetsTable = new Hashtable<Sweet, Integer>();
     }
 
     @Bean
+    /**
+     * for session
+     */
     @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
     public Cart sessionCart() {
         return new Cart();

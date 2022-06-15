@@ -16,21 +16,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-        auth.inMemoryAuthentication().withUser("admin").password(encoder.encode("admin")).roles("ADMIN");
+
+        auth
+                .inMemoryAuthentication()
+                .withUser("admin").password(encoder.encode("admin")).roles("ADMIN")
+                .and()
+                .withUser("user1").password(encoder.encode("user")).roles("USER")
+                .and()
+                .withUser("user2").password(encoder.encode("user")).roles("USER")
+                .and()
+                .withUser("user3").password(encoder.encode("user")).roles("USER");
+        // username "admin" and password "admin"
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.formLogin()
-                //.loginPage("/login") // <=============== uncomment this for a custom login page (see also the controller)
-                //.loginProcessingUrl("/login")
-                .defaultSuccessUrl("/admin", true)
-                //.failureUrl("/login-error") // <===============  uncomment this for a custom login page (see also the controller)
-                .and().logout().logoutSuccessUrl("/admin").and().authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
-                //   .antMatchers("/user/**").hasRole("USER")
-                // .antMatchers("/shared/**").hasAnyRole("USER", "ADMIN")
-                // custom error page for exceptions
+             //   .defaultSuccessUrl("/admin", true)
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/cart/checkout/**").hasRole("USER")
+
                 .and().exceptionHandling().accessDeniedPage("/403.html");
+        //                .antMatchers("/checkout/**").hasRole("USER")
     }
 
 }

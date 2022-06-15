@@ -1,17 +1,22 @@
 package hac.ex4spring;
 
+import hac.ex4spring.listeners.SessionListenerCounter;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.web.context.annotation.ApplicationScope;
-import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.annotation.SessionScope;
 
-/**
- * create some beans witn various scopes using QUALIFIERS (method names)
- */
 @Configuration
 public class BeanConfiguration {
 
+    /**
+     * bean for sessions
+     * @return returns listener bean
+     */
+    @Bean
+    public ServletListenerRegistrationBean<SessionListenerCounter> sessionListenerWithMetrics() {
+        ServletListenerRegistrationBean<SessionListenerCounter> listenerRegBean = new ServletListenerRegistrationBean<>();
 
+        listenerRegBean.setListener(new SessionListenerCounter());
+        return listenerRegBean;
+    }
 }

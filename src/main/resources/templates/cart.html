@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <meta charset="UTF-8">
-    <link rel="icon" href="data:;base64,=">
-
-    <title>Title</title>
-</head>
+<div th:insert="fragments/header.html"></div>
 <body>
 
 <div th:insert="fragments/navbar.html"></div>
 
 <div th:unless="${error}"></div>
 <div th:if="${error}">
-   <header class="bg-danger bg-opacity-50">
+    <header class="bg-danger bg-opacity-50">
         <div class="container px-4 px-lg-5">
             <div class="text-center text-white">
                 <p class="lead fw-normal text-white-50 mb-0" th:text="${error}"></p>
@@ -32,14 +21,12 @@
     <div class="container h-100 py-5">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-10">
-
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
                 </div>
-
-                <form action="#" th:action="@{/cart/emptyCart}" method="post">
+                <form action="#" th:action="@{/cart/emptyCart}" method="get">
                     <button type="submit" class="btn btn-outline-warning">
-                       <b> Remove All</b>
+                        <b> Remove All</b>
                     </button>
                 </form>
 
@@ -49,6 +36,7 @@
                             <div class="col-md-2 col-lg-2 col-xl-2">
                                 <img th:src="${sweet.imageLink}" class="img-fluid rounded-3" alt="Image is unavailable">
                             </div>
+
                             <div class="col-md-3 col-lg-3 col-xl-3">
                                 <p class="lead fw-normal mb-2" th:text="${sweet.sweetName}"></p>
                                 <p>
@@ -56,9 +44,9 @@
                                     <span class="text-muted" th:text="'Discount ' + ${sweet.discount}+ '%'"></span>
                                 </p>
                             </div>
-                            <div class="col-md-3 col-lg-3 col-xl-3 d-flex">
-                                <form action="#" th:action="@{/cart/update}" th:object="${sweet}" method="post">
 
+                            <div class="col-md-3 col-lg-3 col-xl-3 d-flex">
+                                <form action="#" th:action="@{/cart/update}"  method="post">
                                     <button class="btn btn-link px-2"
                                             onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                         <i class="fas fa-plus"></i>
@@ -70,20 +58,18 @@
                                             onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                         <i class="fas fa-minus"></i>
                                     </button>
-
                                     <input type="hidden" name="id" th:value="${sweet.id}">
-
                                     <button type="submit" class="btn">
                                         <i class="fas fa-sync fa-lg text-primary"></i>
                                     </button>
                                 </form>
                             </div>
 
-
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                 <h5 class="mb-0"
                                     th:text="${#numbers.formatDecimal(sweet.price - sweet.price * (sweet.discount / 100), 0, 2)}+ '₪'"></h5>
                             </div>
+
                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                 <form action="#" th:action="@{/cart/delete}" th:object="${sweet}" method="post">
                                     <input type="hidden" name="id" th:value="${sweet.id}">
@@ -91,40 +77,92 @@
                                         <i class="fas fa-trash fa-lg text-danger"></i>
                                     </button>
                                 </form>
-
                             </div>
                         </div>
                     </div>
                 </div>
 
-
                 <div class="card mb-4">
                     <div class="card-body p-4 d-flex flex-row">
                         <div class="form-outline flex-fill">
                             <input disabled type="text" id="form2" class="form-control form-control-lg"
-                                   placeholder="Coupons feature is not available for now"
-                            />
+                                   placeholder="Coupons feature is not available for now"/>
                             <label class="form-label" for="form1">Discount code</label>
                         </div>
                         <button type="button" class="btn btn-outline-warning btn-lg ms-3" disabled>Apply</button>
                     </div>
                 </div>
 
-
                 <div class="card">
                     <div class="card-body">
                         <a class="btn btn-warning btn-block btn-lg" type="button" href="/cart/checkout" role="button"
                            th:text="'Proceed to Pay ' + ${cart.getTotalPrice()} + '₪'"></a>
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
+<br>
 
+<header class="bg-success bg-opacity-50">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center text-white">
+            <p class="lead fw-normal text-white-50 mb-0">More items you may like</p>
+        </div>
+    </div>
+</header>
+<br>
 
+<section class="h-100" style="background-color: #eee;">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div id="carouselExampleControls" class="carousel slide " style=" width:300px; height: 300px !important;"
+                 data-bs-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active" data-bs-interval="3000">
+                        <img th:attr="src=${'sale.png'}" class="d-block w-100 img-responsive" height="300"
+                             alt="sale slide">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="3000" th:each="sweet : ${top5}">
+                        <img th:src="${sweet.imageLink}" class="d-block w-100 img-responsive" height="300"
+                             alt="other slides">
+
+                        <div class="carousel-caption d-none d-md-block">
+                            <div th:if="${sweet.discount > 0}">
+                                <h5 class="card-text bg-white text-dark bg-opacity-75"
+                                    th:text="${#numbers.formatDecimal(sweet.price - sweet.price * (sweet.discount / 100), 0, 2)}+ '₪'"></h5>
+                            </div>
+                            <div th:unless="${sweet.discount > 0}">
+                                <h5 class="card-text bg-white text-dark bg-opacity-75"
+                                    th:text="${sweet.price} + '₪'"></h5>
+                            </div>
+                            <form action="#" th:action="@{/cart/addToCart}"  method="post">
+                                <input type="hidden" name="source" th:value="carousel">
+                                <input type="hidden" name="id" th:value="${sweet.id}">
+                                <input type="submit" class="btn btn-primary" value="Add to cart!">
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<br>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

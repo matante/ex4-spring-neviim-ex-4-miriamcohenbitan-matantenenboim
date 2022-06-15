@@ -1,6 +1,5 @@
 package hac.ex4spring.controllers;
 
-import hac.ex4spring.repo.Payment;
 import hac.ex4spring.repo.PaymentRepository;
 import hac.ex4spring.repo.Sweet;
 import hac.ex4spring.repo.SweetRepository;
@@ -18,33 +17,20 @@ import java.util.Objects;
 public class SweetController {
     @Autowired
     private SweetRepository sweetRepository;
-
     private SweetRepository getSweetRepo() {
         return sweetRepository;
     }
 
-
     @Autowired
     private PaymentRepository paymentRepository;
-
     private PaymentRepository getPaymentRepo() {
         return paymentRepository;
     }
 
-    ;
-
-
     @GetMapping("")
     public String main(Sweet sweet, Model model) {
         model.addAttribute("sweets", getSweetRepo().findAll());
-        System.out.println("about to print payments");
-        for (Payment p : getPaymentRepo().findAll()) {
-            System.out.println(p.getId());
-            System.out.println(p.getAmount());
-            System.out.println(p.getDatetime());
-        }
-        System.out.println("done");
-        return "index";
+        return "admin";
     }
 
     @GetMapping("addsweet")
@@ -53,26 +39,37 @@ public class SweetController {
     }
 
 
+    /**
+     * add a new sweet to the DB
+     * @param sweet a Sweet
+     * @param result BindingResult
+     * @param model model
+     * @return html
+     */
     @PostMapping(value = "/addsweet")
     public String addSweet(@Valid Sweet sweet, BindingResult result, Model model) {
-        if (result.hasErrors()) {
+        if (result.hasErrors()) { // if validation failed
             model.addAttribute("sweets", getSweetRepo().findAll());
-            return "index";
+            return "admin";
         }
-        if (Objects.equals(sweet.getImageLink(), "")) {
+        if (Objects.equals(sweet.getImageLink(), "")) { // no link
             sweet.setImageLink("default-sweet.png");
         }
-        getSweetRepo().save(sweet);
+        getSweetRepo().save(sweet); // add
         model.addAttribute("sweets", getSweetRepo().findAll());
         return "redirect:/admin";
 
-        // return "index";
     }
 
+    /**
+     * a page to see all payments
+     * @param model model
+     * @return html
+     */
     @GetMapping("payments")
     public String payments(Model model) {
         model.addAttribute("payments", getPaymentRepo().findByOrderByDatetimeDesc());
-        Double amount = getPaymentRepo().sumByAmount();
+        Double amount = getPaymentRepo().sumByAmount(); // query may return null if no payments in db
         model.addAttribute("totalAmount", amount != null ? amount : 0);
 
         return "payments";
@@ -84,6 +81,12 @@ public class SweetController {
         return "redirect:/admin";
     }
 
+    /**
+     * delete sweet from the db
+     * @param id id
+     * @param model model
+     * @return html
+     */
     @PostMapping("/delete")
     public String deleteSweet(@RequestParam("id") long id, Model model) {
 
@@ -98,12 +101,17 @@ public class SweetController {
         return "redirect:/admin";
     }
 
+    /**
+     * edit an existing sweet in the db
+     * @param id id
+     * @param model model
+     * @return html
+     */
     @PostMapping("/edit")
     public String editSweet(@RequestParam("id") long id, Model model) {
 
         Sweet sweet = getSweetRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid sweet Id:" + id));
 
-        // the name "user"  is bound to the VIEW
         model.addAttribute("sweet", sweet);
         return "update-sweet";
     }
@@ -113,6 +121,14 @@ public class SweetController {
         return "redirect:/admin";
     }
 
+    /**
+     * after the admin finished editing the sweet, s/he need to update in the db
+     * @param id id
+     * @param sweet sweet to edit
+     * @param result result
+     * @param model model
+     * @return html
+     */
     @PostMapping("/update/{id}")
     public String updateSweet(@PathVariable("id") long id, @Valid Sweet sweet, BindingResult result, Model model) {
         if (result.hasErrors()) {

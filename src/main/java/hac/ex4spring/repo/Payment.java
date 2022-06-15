@@ -14,6 +14,9 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+/**
+ * a class to represent a payment
+ */
 public class Payment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +29,16 @@ public class Payment implements Serializable {
     @CreationTimestamp
     private Date datetime;
 
+    private String username;
 
-
+    /**
+     * validate the amount is > 0
+     * @param amount the amount to set in the payment
+     */
+    public void setAmount(double amount) {
+        if (amount <= 0){
+            throw new IllegalArgumentException("Price to pay must be greater than 0");
+        }
+        this.amount = amount;
+    }
 }

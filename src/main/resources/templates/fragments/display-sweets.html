@@ -1,11 +1,8 @@
 <div class="card h-100">
-    <!-- Sale badge-->
     <div th:if="${sweet.discount > 0}" class="badge bg-dark text-white position-absolute"
          style="top: 0.5rem; right: 0.5rem">Sale
     </div>
-    <!-- Product image-->
     <img class="card-img-top" th:src="${sweet.imageLink}" height="200" alt="Image is unavailable"/>
-    <!-- Product details-->
     <div class="card-body p-4">
         <div class="text-center">
             <h4 class="fw-bolder" th:text="${sweet.sweetName}"></h4>
@@ -34,11 +31,11 @@
 
         </div>
     </div>
-    <!-- Product actions-->
     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-        <form class="d-flex justify-content-center" action="#" th:action="@{/addToCart}" th:object="${sweet}"
+        <form class="d-flex justify-content-center" action="#" th:action="@{/cart/addToCart}"
               method="post">
             <input type="hidden" name="id" th:value="${sweet.id}">
+            <input type="hidden" name="source" th:value="web">
             <button class="btn btn-outline-dark" type="submit">
                 <i class="bi-cart-fill me-1"></i>
                 Add to Cart

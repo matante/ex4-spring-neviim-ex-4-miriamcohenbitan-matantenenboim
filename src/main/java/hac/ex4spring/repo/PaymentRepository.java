@@ -5,13 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+/**
+ * handles the SQL requests
+ */
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findByOrderByDatetimeDesc();
-//    double sumByAmount();
 
-    @Query("SELECT SUM(p.amount) from Payment p")
+    @Query("SELECT SUM(p.amount) from Payment p") // sum all payments in the table
     Double sumByAmount();
-
-
-
 }

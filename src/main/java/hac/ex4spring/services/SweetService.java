@@ -8,14 +8,12 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.util.*;
 
 @Service
 public class SweetService {
 
     @Autowired
     private SweetRepository repository;
-
     private SweetRepository getRepo() {
         return repository;
     }
@@ -26,9 +24,9 @@ public class SweetService {
     @Transactional
     public void reduceSweetsQuantities() {
 
-        for (Sweet sweetInCart : cart.getSweetMap().keySet()) {
+        for (Sweet sweetInCart : cart.getSweetsTable().keySet()) {
             Sweet sweetFromDB = getRepo().findById(sweetInCart.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid sweet Id:" + sweetInCart.getId()));
-            int wantedAmount = cart.getSweetMap().get(sweetInCart);
+            int wantedAmount = cart.getSweetsTable().get(sweetInCart);
             int availableAmount = sweetFromDB.getQuantity();
             int newQuantity = availableAmount - wantedAmount;
 
