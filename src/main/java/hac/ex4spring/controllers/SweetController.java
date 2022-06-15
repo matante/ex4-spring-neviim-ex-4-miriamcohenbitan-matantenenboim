@@ -53,7 +53,7 @@ public class SweetController {
             return "admin";
         }
         if (Objects.equals(sweet.getImageLink(), "")) { // no link
-            sweet.setImageLink("default-sweet.png");
+            sweet.setImageLink(Sweet.DEFAULT_IMAGE_LINK_PATH);
         }
         getSweetRepo().save(sweet); // add
         model.addAttribute("sweets", getSweetRepo().findAll());
@@ -90,7 +90,7 @@ public class SweetController {
     @PostMapping("/delete")
     public String deleteSweet(@RequestParam("id") long id, Model model) {
 
-        Sweet sweet = getSweetRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid sweet Id:" + id));
+        Sweet sweet = getSweetRepo().findById(id).orElseThrow(() -> new IllegalArgumentException(Sweet.INVALID_ID_MSG + id));
         getSweetRepo().delete(sweet);
         model.addAttribute("sweets", getSweetRepo().findAll());
         return "redirect:/admin";
@@ -110,7 +110,7 @@ public class SweetController {
     @PostMapping("/edit")
     public String editSweet(@RequestParam("id") long id, Model model) {
 
-        Sweet sweet = getSweetRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid sweet Id:" + id));
+        Sweet sweet = getSweetRepo().findById(id).orElseThrow(() -> new IllegalArgumentException(Sweet.INVALID_ID_MSG + id));
 
         model.addAttribute("sweet", sweet);
         return "update-sweet";

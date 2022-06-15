@@ -18,6 +18,7 @@ import java.util.Date;
  * a class to represent a payment
  */
 public class Payment implements Serializable {
+    private final String ILLEGAL_PRICE_MSG = "Price to pay must be greater than 0";
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -37,7 +38,7 @@ public class Payment implements Serializable {
      */
     public void setAmount(double amount) {
         if (amount <= 0){
-            throw new IllegalArgumentException("Price to pay must be greater than 0");
+            throw new IllegalArgumentException(ILLEGAL_PRICE_MSG);
         }
         this.amount = amount;
     }

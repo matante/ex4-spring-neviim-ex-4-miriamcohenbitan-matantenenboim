@@ -8,6 +8,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @WebListener
 public class SessionListenerCounter implements HttpSessionListener {
     private final AtomicInteger activeSessions;
+    private final String SESSION_CREATED_MSG = "SessionListenerCounter +++ Total active session are ";
+    private final String SESSION_DESTROYED_MSG = "SessionListenerCounter --- Total active session are ";
+
 
     public SessionListenerCounter() {
         super();
@@ -20,11 +23,11 @@ public class SessionListenerCounter implements HttpSessionListener {
 
     public void sessionCreated(final HttpSessionEvent event) {
         activeSessions.incrementAndGet();
-        System.out.println("SessionListenerCounter +++ Total active session are " + activeSessions.get());
+        System.out.println(SESSION_CREATED_MSG + activeSessions.get());
 
     }
     public void sessionDestroyed(final HttpSessionEvent event) {
         activeSessions.decrementAndGet();
-        System.out.println("SessionListenerCounter --- Total active session are " + activeSessions.get());
+        System.out.println(SESSION_DESTROYED_MSG + activeSessions.get());
     }
 }

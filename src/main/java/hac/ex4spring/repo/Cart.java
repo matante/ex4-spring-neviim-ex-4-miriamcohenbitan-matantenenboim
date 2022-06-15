@@ -45,7 +45,7 @@ public class Cart implements Serializable {
     }
 
     /**
-     * searches for an item in the table, and updates its amonunt
+     * searches for an item in the table, and updates its amount
      *
      * @param id     id of the sweet
      * @param amount new amount
@@ -95,9 +95,9 @@ public class Cart implements Serializable {
 
         for (Sweet sweet : sweetsTable.keySet()) {
             double price = sweet.getPrice() * sweetsTable.get(sweet);
-            double discount = sweet.getDiscount();
+            double discount = sweet.getDiscount() / 100; // percent
 
-            if (discount > 0) result += price - price * discount / 100;
+            if (discount > 0) result += price - price * discount;
             else result += price;
         }
 

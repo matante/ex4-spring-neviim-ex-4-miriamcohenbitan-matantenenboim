@@ -22,7 +22,10 @@ import java.io.Serializable;
  */
 public class Sweet implements Serializable {
     private final int MAX_URL_LENGTH = 255;
-
+    public static final String DEFAULT_IMAGE_LINK_PATH = "default-sweet.png";
+    public static final String INVALID_ID_MSG = "Invalid sweet Id:";
+    private final String OUT_OF_STOCK_MSG = " is out of stock";
+    private final String INVALID_URL_MSG = "URL must be shorter than ";
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -43,7 +46,7 @@ public class Sweet implements Serializable {
      */
     public void setQuantity(int quantity) {
         if (quantity < 0) {
-            throw new IllegalArgumentException(getSweetName() + " is out of stock");
+            throw new IllegalArgumentException(getSweetName() + OUT_OF_STOCK_MSG);
         }
         this.quantity = quantity;
     }
@@ -63,7 +66,7 @@ public class Sweet implements Serializable {
      */
     public void setImageLink(String imageLink) {
         if (imageLink.length() > MAX_URL_LENGTH) {
-            throw new IllegalArgumentException("URL must be shorter than " + MAX_URL_LENGTH);
+            throw new IllegalArgumentException(INVALID_URL_MSG + MAX_URL_LENGTH);
         }
         this.imageLink = imageLink;
     }

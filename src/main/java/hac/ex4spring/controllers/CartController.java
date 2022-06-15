@@ -94,7 +94,8 @@ public class CartController {
      */
     @PostMapping("/addToCart")
     public String addToCart(@RequestParam("id") long id, @RequestParam("source") String source) {
-        Sweet sweet = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid sweet Id:" + id));
+
+        Sweet sweet = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException(Sweet.INVALID_ID_MSG + id));
         cart.addToCart(sweet);
         if (source == null || source.equals("web"))
             return "redirect:/";
