@@ -22,7 +22,7 @@ password for any of them is "user"
 
 If the purchase failed (more sweets in the cart than in the store, or if sum to pay is 0), the users will be notified and will not be able to proceed.
 
-After a successful purchase, the payment information is added to the admin panel.
+After a successful purchase, the payment information is added to the admin panel. The information is sorted by date, desc (the latest one first)
  
 To log in to admin, use "http://localhost:8080/admin" with username "admin" and password "admin".
 
@@ -33,6 +33,8 @@ The program counts and prints the number of active sessions.
 The form in the payment page is not active, and there just for the entertainment (maybe we will make it active in the future ☻)
 , which means one can click the payment button without inserting any information, and if inserted, the information goes nowhere
 This applies also for the Coupon code (we disabled the option to insert and click on Coupon)
+
+
 </p>
 <h1>Tests and input files</h1>
 <p> We added "ex4.sql" file in the main folder of this repo

@@ -31,17 +31,17 @@
                                                 <div class="ms-3">
                                                     <h5 th:text="${sweet.sweetName}"></h5>
                                                     <p class="small mb-0"
-                                                       th:text="${#numbers.formatDecimal(sweet.price - sweet.price * (sweet.discount / 100), 0, 2)}+ '₪'"></p>
+                                                       th:text="${sweet.getDiscountedPrice()}+ '₪'"></p>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;">
+                                                <div style="width: 200px;">
                                                     <h5 class="fw-normal mb-0"
                                                         th:text="${cart.getItemAmount(sweet.id)}"></h5>
                                                 </div>
-                                                <div style="width: 80px;">
+                                                <div style="width: 200px;">
                                                     <h5 class="mb-0"
-                                                        th:text="${#numbers.formatDecimal((sweet.price - sweet.price * (sweet.discount / 100) ) * cart.getItemAmount(sweet.id), 0, 2)}+ '₪'"></h5>
+                                                        th:text="${cart.getDiscountedPrice(sweet.id)}+ '₪'"></h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -108,7 +108,7 @@
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Subtotal</p>
                                             <p class="mb-2"
-                                               th:text="${#numbers.formatDecimal(cart.getTotalPrice(), 0, 2)} + '₪'"></p>
+                                               th:text="${cart.getTotalPrice()} + '₪'"></p>
                                         </div>
 
                                         <div class="d-flex justify-content-between">
@@ -119,7 +119,7 @@
                                         <div class="d-flex justify-content-between mb-4">
                                             <p class="mb-2">Total(Incl. taxes)</p>
                                             <p class="mb-2"
-                                               th:text="${#numbers.formatDecimal(cart.getTotalPrice(), 0, 2)} + '₪'"></p>
+                                               th:text="${cart.getTotalPrice()} + '₪'"></p>
                                         </div>
 
                                         <!--                                        <a href="/complete" type="button" class="btn btn-light btn-block btn-lg">-->

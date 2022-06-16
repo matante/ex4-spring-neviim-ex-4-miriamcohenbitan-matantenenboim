@@ -40,8 +40,7 @@
                             <div class="col-md-3 col-lg-3 col-xl-3">
                                 <p class="lead fw-normal mb-2" th:text="${sweet.sweetName}"></p>
                                 <p>
-                                    <span class="text-muted" th:text="'Price ' +${sweet.price}+ '₪'"></span>
-                                    <span class="text-muted" th:text="'Discount ' + ${sweet.discount}+ '%'"></span>
+                                    <span class="text-muted" th:text="'Price ' +${sweet.getDiscountedPrice()}+ '₪'"></span>
                                 </p>
                             </div>
 
@@ -51,7 +50,7 @@
                                             onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                         <i class="fas fa-plus"></i>
                                     </button>
-                                    <input id="form1" min="0" name="quantity" th:value="${cart.getItemAmount(sweet.id)}"
+                                    <input id="form1" min="0" max="100000" name="quantity" th:value="${cart.getItemAmount(sweet.id)}"
                                            type="number"
                                            class="form-control form-control-sm"/>
                                     <button class="btn btn-link px-2"
@@ -67,7 +66,7 @@
 
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                 <h5 class="mb-0"
-                                    th:text="${#numbers.formatDecimal(sweet.price - sweet.price * (sweet.discount / 100), 0, 2)}+ '₪'"></h5>
+                                    th:text="${cart.getDiscountedPrice(sweet.id)}+ '₪'"></h5>
                             </div>
 
                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
@@ -131,7 +130,7 @@
                         <div class="carousel-caption d-none d-md-block">
                             <div th:if="${sweet.discount > 0}">
                                 <h5 class="card-text bg-white text-dark bg-opacity-75"
-                                    th:text="${#numbers.formatDecimal(sweet.price - sweet.price * (sweet.discount / 100), 0, 2)}+ '₪'"></h5>
+                                    th:text="${sweet.getDiscountedPrice()}+ '₪'"></h5>
                             </div>
                             <div th:unless="${sweet.discount > 0}">
                                 <h5 class="card-text bg-white text-dark bg-opacity-75"

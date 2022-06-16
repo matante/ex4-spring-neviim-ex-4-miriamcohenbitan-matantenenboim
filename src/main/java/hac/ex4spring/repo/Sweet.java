@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 
 @Component
@@ -71,5 +72,14 @@ public class Sweet implements Serializable {
         this.imageLink = imageLink;
     }
 
+    /**
+     *
+     * @return return the price after discount with up to 2 decimal numbers after dot
+     */
+    public double getDiscountedPrice(){
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        return Double.parseDouble(df.format(price - price * (discount/100)));
+    }
 
 }

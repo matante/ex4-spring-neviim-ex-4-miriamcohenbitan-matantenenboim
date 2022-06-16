@@ -6,7 +6,6 @@
 
 <div class="container">
     <br>
-    <a class="btn btn-primary" href="/" role="button">Home page</a>
 
     <a class="btn btn-primary" href="/admin/addsweet" role="button">Manage Sweets</a>
 
@@ -18,7 +17,7 @@
         <h2 th:case="0">No payments yet!</h2>
         <div th:case="*">
             <h2 class="my-5">Payments</h2>
-            <p th:text="'Total amount: ' + ${#numbers.formatDecimal(totalAmount, 0, 2)}+ '₪'"></p>
+            <p th:text="'Total amount: ' + ${totalAmount}+ '₪'"></p>
             <table class="table table-striped table-responsive-md">
                 <thead>
                 <tr>

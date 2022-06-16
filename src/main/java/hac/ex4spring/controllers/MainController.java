@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Date;
 
@@ -22,12 +23,14 @@ public class MainController {
 
     @Autowired
     private SweetRepository sweetRepository;
+
     private SweetRepository getSweetRepo() {
         return sweetRepository;
     }
 
     @Autowired
     private PaymentRepository paymentRepository;
+
     private PaymentRepository getPaymentRepo() {
         return paymentRepository;
     }
@@ -54,8 +57,26 @@ public class MainController {
 
 
     /**
+     * handle redirections after log in according to role (if regular user, according to cart)
+     * @param request request
+     * @return html
+     */
+    @GetMapping("/logged")
+    public String logged(HttpServletRequest request) {
+
+        if (request.isUserInRole("ADMIN")) {
+            return "redirect:/admin/";
+        }
+        if (cart.getNumOfItems() == 0){ // go add items!! make us rich ☻
+            return "redirect:/";
+        }
+        return "redirect:/cart/checkout";
+    }
+
+    /**
      * for each sweet in the db which name contains substring matching to the name, show it in the page
-     * @param name the name to search for in the DB
+     *
+     * @param name  the name to search for in the DB
      * @param model model
      * @return html page with results
      */
@@ -72,6 +93,7 @@ public class MainController {
      * we reach here after the user press Pay, we make sure the quantities in the sweets db matching to the order.
      * we add a new payment to the db
      * if something fails, go back to the cart and show the error
+     *
      * @param model model
      * @return html page according to the calculation
      */
@@ -85,8 +107,11 @@ public class MainController {
             Date date = new Date(); // current date
             Payment payment = new Payment();
             payment.setDatetime(date);
+
             payment.setAmount(amount); // may throw exception if <= 0
+
             payment.setUsername(principal.getName());
+
             getPaymentRepo().save(payment);
 
             cart.empty();

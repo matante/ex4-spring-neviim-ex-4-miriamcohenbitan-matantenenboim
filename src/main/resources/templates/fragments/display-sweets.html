@@ -11,10 +11,10 @@
                 <div class="row">
                     <br><h4 th:text="'Discount: ' + ${sweet.discount} + '%'"></h4>
                     <div class="col  text-end">
-                        <h5 class="text-danger"><s th:text="${sweet.price} + '₪' "></s></h5>
+                        <h4 class="text-danger"><s th:text="${sweet.price} + '₪' "></s></h4>
                     </div>
                     <div class="col  text-start">
-                        <h3 th:text="${#numbers.formatDecimal(sweet.price - sweet.price * (sweet.discount / 100), 0, 2)} + '₪'"></h3>
+                        <h3 th:text="${sweet.getDiscountedPrice()} + '₪'"></h3>
                     </div>
                 </div>
             </div>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/cart")
@@ -103,9 +104,9 @@ public class CartController {
         return "redirect:/cart";
     }
 
-//    @GetMapping("/destroy")
-//    public String destroySession(HttpServletRequest request) {
-//        request.getSession().invalidate();
-//        return "redirect:/cart";
-//    }
+    @GetMapping("/destroy")
+    public String destroySession(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:/cart";
+    }
 }

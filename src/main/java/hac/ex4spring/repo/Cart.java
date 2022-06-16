@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.Hashtable;
 
 @Component
@@ -94,21 +95,33 @@ public class Cart implements Serializable {
         double result = 0;
 
         for (Sweet sweet : sweetsTable.keySet()) {
-            double price = sweet.getPrice() * sweetsTable.get(sweet);
-            double discount = sweet.getDiscount() / 100; // percent
-
-            if (discount > 0) result += price - price * discount;
-            else result += price;
+            result += getDiscountedPrice(sweet.getId());
         }
-
-        return Math.floor(result * 100) / 100; // 2 digits after decimal dot
+        return result;
     }
 
     /**
-     * calculate how many items overall in the cart (here, 5x banana + 3x hubba bubba = 8)
-     *
-     * @return
+     * gets a sweet's id, calculate it's discounted price, returns multiplied by numbers of sweet in the cart
+     * @param id id
+     * @return as described
      */
+    public double getDiscountedPrice(long id){
+        double result = 0;
+        for (Sweet sweet : sweetsTable.keySet())
+            if (sweet.getId() == id) {
+                result = sweet.getDiscountedPrice() * sweetsTable.get(sweet);
+                break;
+            }
+        return result;
+    }
+
+
+
+        /**
+         * calculate how many items overall in the cart (here, 5x banana + 3x hubba bubba = 8)
+         *
+         * @return
+         */
     public Integer getNumOfItems() {
         Integer result = 0;
         for (Sweet sweet : sweetsTable.keySet()) {
