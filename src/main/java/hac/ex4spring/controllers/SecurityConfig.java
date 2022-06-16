@@ -42,7 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cart/checkout/**").hasRole("USER")
 
                 .and().exceptionHandling().accessDeniedPage("/403.html");
-        //                .antMatchers("/checkout/**").hasRole("USER")
     }
 
 }
